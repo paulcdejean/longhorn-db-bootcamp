@@ -8,28 +8,6 @@ CREATE DATABASE elephpants;
 
 USE elephpants;
 
--- Elephpant
-CREATE TABLE elephpant (
-    id INT NOT NULL AUTO_INCREMENT,
-    elephpant_name VARCHAR(255) NOT NULL,
-    spieces INT NOT NULL,
-    sex INT NOT NULL,
-    weight FLOAT,
-    alive BOOLEAN,
-
-    PRIMARY KEY (id),
-
-    CONSTRAINT FK_elephpant_spieces
-        FOREIGN KEY (spieces)
-        REFERENCES spieces (id),
-
-    CONSTRAINT FK_elephpant_sex
-        FOREIGN KEY (sex)
-        REFERENCES sex (id)
-
-) ENGINE=INNODB;
-
-
 -- different species of elephpants
 CREATE TABLE species (
     id INT NOT NULL AUTO_INCREMENT,
@@ -38,7 +16,7 @@ CREATE TABLE species (
     PRIMARY KEY (id),
 
     CONSTRAINT UK_species_name
-        UNIQUE (name)
+        UNIQUE (species_name)
 
 ) ENGINE=INNODB;
 
@@ -51,7 +29,29 @@ CREATE TABLE sex (
     PRIMARY KEY (id),
 
     CONSTRAINT UK_sex_name
-        UNIQUE (name)
+        UNIQUE (sex_name)
+
+) ENGINE=INNODB;
+
+
+-- Elephpant
+CREATE TABLE elephpant (
+    id INT NOT NULL AUTO_INCREMENT,
+    elephpant_name VARCHAR(255) NOT NULL,
+    species INT NOT NULL,
+    sex INT NOT NULL,
+    weight FLOAT,
+    alive BOOLEAN,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT FK_elephpant_spieces
+        FOREIGN KEY (species)
+        REFERENCES species (id),
+
+    CONSTRAINT FK_elephpant_sex
+        FOREIGN KEY (sex)
+        REFERENCES sex (id)
 
 ) ENGINE=INNODB;
 
@@ -61,12 +61,12 @@ CREATE TABLE zoo (
     id INT NOT NULL AUTO_INCREMENT,
     zoo_name VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
-    phone VARCHAR(255)
+    phone VARCHAR(255),
 
     PRIMARY KEY (id),
+
     CONSTRAINT UK_zoo_address
         UNIQUE (address)
-
 ) ENGINE=INNODB;
 
 
@@ -81,16 +81,16 @@ CREATE TABLE trades (
     PRIMARY KEY (id),
 
     CONSTRAINT FK_elephpant_traded
-        FOREIGN KEY (elephpant)
+        FOREIGN KEY (elephpant_traded)
         REFERENCES elephpant (id),
 
     CONSTRAINT FK_traded_from
-        FOREIGN KEY (zoo)
+        FOREIGN KEY (traded_from)
         REFERENCES zoo (id),
 
     CONSTRAINT FK_traded_to
-        FOREIGN KEY (zoo)
-        REFERENCES zoo (id),
+        FOREIGN KEY (traded_to)
+        REFERENCES zoo (id)
 ) ENGINE=INNODB;
 
 -- briths
@@ -104,14 +104,14 @@ CREATE TABLE births (
     PRIMARY KEY (id),
 
     CONSTRAINT FK_birth_mother
-        FOREIGN KEY (elephpant)
+        FOREIGN KEY (mother)
         REFERENCES elephpant (id),
 
     CONSTRAINT FK_birth_father
-        FOREIGN KEY (elephpant)
+        FOREIGN KEY (father)
         REFERENCES elephpant (id),
 
     CONSTRAINT FK_birth_baby
-        FOREIGN KEY (elephpant)
-        REFERENCES elephpant (id),
+        FOREIGN KEY (baby)
+        REFERENCES elephpant (id)
 ) ENGINE=INNODB;
