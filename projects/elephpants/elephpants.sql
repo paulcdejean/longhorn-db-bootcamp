@@ -34,28 +34,6 @@ CREATE TABLE sex (
 ) ENGINE=INNODB;
 
 
--- Elephpant
-CREATE TABLE elephpant (
-    id INT NOT NULL AUTO_INCREMENT,
-    elephpant_name VARCHAR(255) NOT NULL,
-    species INT NOT NULL,
-    sex INT NOT NULL,
-    weight FLOAT,
-    alive BOOLEAN,
-
-    PRIMARY KEY (id),
-
-    CONSTRAINT FK_elephpant_spieces
-        FOREIGN KEY (species)
-        REFERENCES species (id),
-
-    CONSTRAINT FK_elephpant_sex
-        FOREIGN KEY (sex)
-        REFERENCES sex (id)
-
-) ENGINE=INNODB;
-
-
 -- zoos!
 CREATE TABLE zoo (
     id INT NOT NULL AUTO_INCREMENT,
@@ -69,6 +47,30 @@ CREATE TABLE zoo (
         UNIQUE (address)
 ) ENGINE=INNODB;
 
+-- Elephpant
+CREATE TABLE elephpant (
+    id INT NOT NULL AUTO_INCREMENT,
+    elephpant_name VARCHAR(255) NOT NULL,
+    species INT NOT NULL,
+    sex INT NOT NULL,
+    weight FLOAT NOT NULL,
+    alive BOOLEAN NOT NULL,
+    zoo INT NOT NULL,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT FK_elephpant_spieces
+        FOREIGN KEY (species)
+        REFERENCES species (id),
+
+    CONSTRAINT FK_elephpant_sex
+        FOREIGN KEY (sex)
+        REFERENCES sex (id),
+
+    CONSTRAINT FK_elephpant_zoo
+        FOREIGN KEY (zoo)
+        REFERENCES zoo (id)
+) ENGINE=INNODB;
 
 -- trades
 CREATE TABLE trades (
